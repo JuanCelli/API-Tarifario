@@ -26,10 +26,10 @@ class DataManager {
 
     indexadoLocalidades(){
         return this.data.reduce((acc,paquete)=>{
-            if(!acc[paquete.localidad]){
-                acc[paquete.localidad] = [paquete]
+            if(!acc[paquete.codloc]){
+                acc[paquete.codloc] = [paquete]
             }else{
-                acc[paquete.localidad].push(paquete)
+                acc[paquete.codloc].push(paquete)
             }
             return acc
         }, {})
@@ -40,7 +40,7 @@ class DataManager {
         let main = {}
 
         localidades.map((localidad)=>{
-            main[localidad] = this.getDataByLocalidad(localidad).reduce((acc,paquete)=>{
+            main[localidad.codloc] = this.getDataByLocalidad(localidad.codloc).reduce((acc,paquete)=>{
                 acc[paquete.cod_cla] = paquete
                 return acc
             },{})
@@ -48,11 +48,11 @@ class DataManager {
         return main
     }
 
-    getDataByLocalidad(localidad){
-        if(!this.localidadesIndex[localidad]){
+    getDataByLocalidad(codloc){
+        if(!this.localidadesIndex[codloc]){
             return []
         }
-        return this.localidadesIndex[localidad]
+        return this.localidadesIndex[codloc]
     }
 
     getPaqueteById(localidad,id){
@@ -68,14 +68,15 @@ class DataManager {
     getLocalidades(){
         let localidades = []
         this.data.map((paquete)=>{
-            if(!localidades.includes(paquete.localidad)){
-                localidades.push(paquete.localidad)
+            if(!localidades.map((localidad)=>localidad.name).includes(paquete.localidad)){
+                localidades.push({
+                    name: paquete.localidad,
+                    id: paquete.codloc
+                })
             }
         })
         return localidades.sort()
     }
-
-    
 
     readFile(){
         if(fs.existsSync(this.#pathFile)){
