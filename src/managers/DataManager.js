@@ -78,6 +78,16 @@ class DataManager {
         return localidades.sort()
     }
 
+    getLocalidadById(id){
+        const localidades = this.getLocalidades()
+        let localidad = localidades.find(localidad=>localidad.id===id)
+
+        if(!localidad){
+            localidad = {}
+        }
+        return localidad
+    }
+
     readFile(){
         if(fs.existsSync(this.#pathFile)){
             try{

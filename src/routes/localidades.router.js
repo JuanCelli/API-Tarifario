@@ -9,4 +9,13 @@ router.get("/",(req,res)=>{
     res.send(localidades);
 })
 
+router.get("/:id",(req,res)=>{
+    const {id} = req.params
+    console.log(dataManager.getLocalidadById(id))
+    const localidades = JSON.stringify(dataManager.getLocalidadById(id), null, 2);
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(localidades);
+})
+
 export default router
