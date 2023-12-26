@@ -40,7 +40,7 @@ class DataManager {
         let main = {}
 
         localidades.map((localidad)=>{
-            main[localidad.codloc] = this.getDataByLocalidad(localidad.codloc).reduce((acc,paquete)=>{
+            main[localidad.id] = this.getDataByLocalidad(localidad.id).reduce((acc,paquete)=>{
                 acc[paquete.cod_cla] = paquete
                 return acc
             },{})

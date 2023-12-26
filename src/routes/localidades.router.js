@@ -11,8 +11,14 @@ router.get("/",(req,res)=>{
 
 router.get("/:id",(req,res)=>{
     const {id} = req.params
-    console.log(dataManager.getLocalidadById(id))
-    const localidades = JSON.stringify(dataManager.getLocalidadById(id), null, 2);
+    const arrayLocalidades = dataManager.getLocalidadById(id)
+
+    if(Object.keys(arrayLocalidades).length==0){
+        res.status(404)
+        res.send("Localidad no encontrada")
+        return
+    }
+    const localidades = JSON.stringify(arrayLocalidades, null, 2);
 
     res.setHeader('Content-Type', 'application/json');
     res.send(localidades);

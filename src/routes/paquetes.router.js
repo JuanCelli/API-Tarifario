@@ -14,19 +14,35 @@ router.get("/",(req,res)=>{
 // Devuelve todos los paquetes de una localidad
 router.get("/:localidad",(req,res)=>{
     const {localidad} = req.params
-    const paquetes = JSON.stringify(dataManager.getDataByLocalidad(localidad), null, 2);
+    const paquetes = dataManager.getDataByLocalidad(localidad)
+
+    if(paquetes.length==0){
+        res.status(404)
+        res.send("Localidad no encontrada")
+        return
+    }
+
+    const paquetesJson = JSON.stringify(paquetes, null, 2);
 
     res.setHeader('Content-Type', 'application/json');
-    res.send(paquetes);
+    res.send(paquetesJson);
 })
 
 // Devuelve todos solo un paquete de una localidad
 router.get("/:localidad/:id",(req,res)=>{
     const {localidad,id} = req.params
-    const paquete = JSON.stringify(dataManager.getPaqueteById(localidad,id), null, 2);
+    const paquete = dataManager.getPaqueteById(localidad,id)
+
+    if(paquete.length==0){
+        res.status(404)
+        res.send("Paquete o localidad no encontrados")
+        return
+    }
+
+    const paqueteJson = JSON.stringify(paquete, null, 2);
 
     res.setHeader('Content-Type', 'application/json');
-    res.send(paquete);
+    res.send(paqueteJson);
 })
 
 export default router
